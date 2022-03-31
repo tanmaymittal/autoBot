@@ -5,11 +5,17 @@ from rewards import rewards
 import json
 import gc
 
-
-def main(args, count):
+# PARAMS
+#
+# args = file name to be opened
+# count = how many times to hit the job
+#
+# RETURNS 
+# NULL
+# 
+def main(file_name, count):
     count = int(count)
-    file_opened = args
-    f = open('{}'.format(file_opened))
+    f = open('{}'.format(file_name))
     data = json.load(f)
     # f = open('test_account.json')
     # data = json.load(f)
