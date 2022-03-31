@@ -26,7 +26,10 @@ def job(access_token, id, count):
         }
     job_payload = f'mission_id={id}'
     # Hit job 15 times
+    temp_count = 0
     for i in range(count):
         r_job = requests.request("POST", job_url, headers=headers, data=job_payload)
-        print(r_job)
+        if temp_count == 0:
+            print(r_job)
+            temp_count += 1
         

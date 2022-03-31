@@ -25,6 +25,6 @@ def rewards(access_token):
         }
     rewards_payload = {}
     rewards_response = requests.request("POST", rewards_url, headers=headers, data=rewards_payload)
-    print("Spinner Collected: ", rewards_response)
+    # print("Spinner Collected: ", rewards_response)
     return rewards_response
         

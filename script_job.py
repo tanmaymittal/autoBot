@@ -1,3 +1,4 @@
+from sys import argv
 from job import job
 from login import login
 from rewards import rewards
@@ -5,9 +6,13 @@ import json
 import gc
 
 
-def main():
-    f = open('test_account.json')
+def main(args, count):
+    count = int(count)
+    file_opened = args
+    f = open('{}'.format(file_opened))
     data = json.load(f)
+    # f = open('test_account.json')
+    # data = json.load(f)
     for key, value in data.items():
         r_dict = login(key, value)
         access_token = r_dict['access_token']
@@ -17,7 +22,7 @@ def main():
         cash = r_dict['bank_account']['balance']
         print(username, ecs, cash)
         rewards(access_token)
-        job(access_token, 2, 5)
+        job(access_token, 2, count)
     gc.collect(generation=0)
     gc.collect(generation=1)
     gc.collect(generation=2)
@@ -25,5 +30,5 @@ def main():
 
 # Structure of script is that it is 
 if __name__ == '__main__':
-    main()
+    main(argv[1], argv[2])
 
