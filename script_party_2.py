@@ -6,6 +6,18 @@ import json
 import gc
 
 from party_action import party_action
+from collect_side_quests import collect_side_quests
+
+# Returns true if won
+def check_if_won(response):
+    # Function that checks if action was won or not
+    response_json = response.json()
+    if 'won' in response_json:
+        if response_json['won'] == False:
+            return False
+        else:
+            return True
+
 
 # PARAMS
 #
@@ -33,16 +45,21 @@ def main(file_name):
         # maybe make it a tuple
     for access_token, user_id in tokens:
         # print(key, value)
+        
+        # print(response.status_code)
+        # boo = check_if_won(response)
+        # print(boo)
         actions_list = ['steal', 'assassinate', 'attack', 'scout']
-        response = party_action(access_token, user_id, 'steal', 1)
-        print(response.status_code, response.text)
         for x in actions_list: 
-            while True:
-                if response.status_code != 200:
-                    break
+            # print("Going for ", x)
+            response = party_action(access_token, user_id, x, 1)
+            won = check_if_won(response)
+            # print(x, ': ', won, response.status_code)
+            while (won == True):
                 response = party_action(access_token, user_id, x, 1)
-                print(response.status_code, response.text)
-
+                won = check_if_won(response)
+                print(x, ': ', won, response.status_code)
+        # collect_side_quests(access_token, user_id)
         gc.collect()
 
 ################################################################
