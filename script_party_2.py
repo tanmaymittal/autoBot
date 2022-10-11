@@ -15,18 +15,24 @@ from party_action import party_action
 # RETURNS 
 # NULL
 # 
-def main_2(file_name, count):
-    count = int(count)
-    f = open('{},json'.format(file_name))
+def main(file_name):
+    # count = int(count)
+    f = open('{}.json'.format(file_name))
     # f = open('test_account.json')
     data = json.load(f)
+    # Has tupples with Access_Tokens and User ID 
+    tokens = []
     for key, value in data.items():
         r_dict = login(key, value)
         access_token = r_dict['access_token']
         user_id = r_dict['game_user']['user_id']
         username = r_dict['game_user']['username']
+        tokens.append((access_token, user_id))
         print(username)
+
         # maybe make it a tuple
+    for access_token, user_id in tokens:
+        # print(key, value)
         actions_list = ['steal', 'assassinate', 'attack', 'scout']
         response = party_action(access_token, user_id, 'steal', 1)
         print(response.status_code, response.text)
@@ -37,36 +43,6 @@ def main_2(file_name, count):
                 response = party_action(access_token, user_id, x, 1)
                 print(response.status_code, response.text)
 
-        gc.collect()
-
-    count = int(count)
-    f = open('{},json'.format(file_name))
-    # f = open('test_account.json')
-    data = json.load(f)
-    for key, value in data.items():
-        r_dict = login(key, value)
-        access_token = r_dict['access_token']
-        user_id = r_dict['game_user']['user_id']
-        username = r_dict['game_user']['username']
-        print(username)
-        # maybe make it a tuple
-        actions = []
-        actions.append((party_action(access_token, user_id, 'steal', 1), 'steal'))
-        actions.append((party_action(access_token, user_id, 'assassinate', 1), 'assassinate'))
-        actions.append((party_action(access_token, user_id, 'attack', 1), 'attack'))
-        actions.append((party_action(access_token, user_id, 'scout', 1), 'scout'))
-
-
-        for response, type in actions:
-            if response.status_code == 200:
-                if type == 'steal':
-                    party_action(access_token, user_id, 'steal', 8)
-                elif type == 'assassinate':
-                    party_action(access_token, user_id, 'assassinate', 15)
-                elif type == 'attack':
-                    party_action(access_token, user_id, 'attack', 10)
-                elif type == 'scout':
-                    party_action(access_token, user_id, 'scout', 25)
         gc.collect()
 
 ################################################################
@@ -91,4 +67,4 @@ Done
 
 # Structure of script is that it is 
 if __name__ == '__main__':
-    main(argv[1], argv[2])
+    main(argv[1])
