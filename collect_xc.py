@@ -9,7 +9,7 @@ from get_tasks import get_tasks
 # RETURNS 
 # Request Responses in a list 
 # 
-def collect_side_quests(access_token, user_id):
+def collect_xc(access_token, user_id):
     headers = {
         'Host': 'api.partyinmydorm.com',
         'Content-Type': 'application/x-www-form-urlencoded',

@@ -7,6 +7,12 @@ import gc
 
 from party_action import party_action
 from collect_side_quests import collect_side_quests
+from collect_xc import collect_xc
+from open_timer_box import open_timer_box
+from unlock_timer_box import unlock_timer_box
+from box import open_box
+from questline import questline
+
 
 # Returns true if won
 def check_if_won(response):
@@ -49,6 +55,15 @@ def main(file_name):
         # print(response.status_code)
         # boo = check_if_won(response)
         # print(boo)
+        
+        # unlock_timer_box(access_token, 0)
+        open_timer_box(access_token, 138215)
+        # open_box(access_token, 0)
+        collect_side_quests(access_token)
+        collect_xc(access_token, user_id)
+        questline(access_token, 3922)
+        questline(access_token, 3926)
+        
         actions_list = ['steal', 'assassinate', 'attack', 'scout']
         for x in actions_list: 
             # print("Going for ", x)
@@ -59,6 +74,8 @@ def main(file_name):
                 response = party_action(access_token, user_id, x, 1)
                 won = check_if_won(response)
                 print(x, ': ', won, response.status_code)
+                if response.status_code == 500:
+                    print(response.text)
         # collect_side_quests(access_token, user_id)
         gc.collect()
 
